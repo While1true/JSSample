@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+<Button
+    android:layout_width="match_parent"
+    android:text="登陆"
+    android:textSize="20sp"
+    android:onClick="login"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp"
+    android:gravity="center"
+    android:textColor="#353535"
+    android:layout_gravity="center"
+    android:layout_height="50dp" />
+</FrameLayout>

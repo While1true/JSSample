@@ -5,8 +5,11 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myapplication.Sample2.ActivityUtils;
 import com.example.myapplication.View.SProgress;
 import com.example.myapplication.View.SScrollview;
 
@@ -52,6 +55,36 @@ public class MainActivity extends AppCompatActivity {
         initialProgress();
     }
 
+
+    /**
+     * 第二讲
+     * @param v
+     */
+    public void goLogin(final View v){
+        if( ((Button)v).getText().toString().equals("您已登陆")){
+            Toast.makeText(this,"您已登陆，重新登陆？",0).show();
+            ((Button)v).setText("点击重新登陆");
+            return;
+        }
+
+        ActivityUtils.startLogin(this, new ActivityUtils.ActivityResultListner() {
+            @Override
+            public void loginsuccess() {
+                super.loginsuccess();
+                ((Button)v).setText("您已登陆");
+            }
+
+            @Override
+            public void logincancel() {
+                super.logincancel();
+                Toast.makeText(MainActivity.this,"您已取消登陆",0).show();
+            }
+        });
+    }
+
+    /**
+     * 第一讲
+     */
     private void initialProgress() {
         sProgress = (SProgress) findViewById(R.id.sprogress);
 
