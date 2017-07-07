@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="sprogress_string">当前进度%.1f%%</string>
+    <string name="progress_introduce"><![CDATA[
+    ==xml配置==
+          <com.example.myapplication.View.SProgress
+                android:id="@+id/sprogress"
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/frentallystart"
+                android:padding="15dp"
+                app:backColor="#ffff8787"
+                app:minProgress="0"
+                app:progressColor="#ffff3030"
+                app:progressendcolor="#ffff6969"
+                app:startprogress="20"
+                app:textColor="#ffffffff"
+                app:textsize="9sp" />
+
+    ==代码配置==
+                new SProgress(MainActivity.this)
+                        .setProgress(0)
+                        .setColor(colors[a][b], colors[b][a], 0xffff0000)
+                        .setTextSize(12)
+                        .animatorToProgress(99);
+    ]]></string>
+</resources>
+    <!--<![CDATA[]]>-->

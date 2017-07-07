@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.myapplication.View.SScrollview xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sscrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="#f0f0f0"
+            android:layout_height="wrap_content">
+
+            <com.example.myapplication.View.SProgress
+                android:id="@+id/sprogress"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@+id/frentallystart"
+                android:padding="15dp"
+                app:backColor="#ffff8787"
+                app:minProgress="0"
+                app:progressColor="#ffff3030"
+                app:progressendcolor="#ffff6969"
+                app:startprogress="88.8"
+                app:textColor="#ffffffff"
+                app:textsize="9sp" />
+            <TextView
+                android:id="@+id/frentallystart"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/restart"
+                android:background="@color/cardview_light_background"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="动态进度"
+                android:textColor="#353535" />
+            <TextView
+                android:id="@+id/restart"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:background="@color/cardview_light_background"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="重新开始"
+                android:textColor="#353535" />
+
+            <MultiAutoCompleteTextView
+                android:layout_below="@+id/restart"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:id="@+id/multiAutoCompleteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:background="@null"
+                android:text="@string/progress_introduce"/>
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</com.example.myapplication.View.SScrollview>
