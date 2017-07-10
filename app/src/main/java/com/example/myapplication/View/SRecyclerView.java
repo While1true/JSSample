@@ -18,7 +18,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ScrollerCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,7 +45,6 @@ import android.widget.TextView;
 import com.example.myapplication.R;
 
 
-
 /**
  * Created by s0005 on 2017/4/8.
  * <p>
@@ -67,7 +65,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
             return t * t * t * t * t + 1.0f;
         }
     };
-    ScrollerCompat scrollerCompat = ScrollerCompat.create(getContext(), new DecelerateInterpolator());
     private OnRefreshListener listener;
 
     private int headerHeight = dp2px(50), footHeight = dp2px(40);
@@ -91,12 +88,12 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     private ValueAnimator animator;
     private ValueAnimator animator1;
     //超出距离是否加载
-    private boolean canOverLoadingHeader = true, canOverLoadingfooter = true, canLoadingHeader = true, canLoadingFooter = false;
-    //快速滑动是否可惯性
-    private boolean canOverscroll = false;
+    private boolean  canLoadingHeader = true, canLoadingFooter = false;
     //是否默认头尾布局
     private boolean isusingDefault;
+    //旋转的进度
     private ImageView headerprogress;
+    //文字Textview
     private TextView headTitle;
     private RotateAnimation animation;
 
@@ -244,7 +241,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         params1.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.setLayoutParams(params1);
         ImageView imageView = new ImageView(getContext());
-        imageView.setImageResource(R.mipmap.prf_background);
+        imageView.setImageResource(R.drawable.ptr_background);
 //        imageView.setImageBitmap(BitmapFactory.decodeByteArray(bg, 0, bg.length));
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         RelativeLayout.LayoutParams paramsimageView = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -263,7 +260,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
         headerprogress = new ImageView(getContext());
 //        headerprogress.setImageBitmap(BitmapFactory.decodeByteArray(pro, 0, pro.length));
-        headerprogress.setImageResource(R.mipmap.net_progressbar);
+        headerprogress.setImageResource(R.drawable.ptr_loading);
 
         headTitle = new TextView(getContext());
         headTitle.setText("下拉刷新");
@@ -297,7 +294,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         LayoutParams params3 = new LayoutParams(dp2px(30), dp2px(30));
         params3.gravity = Gravity.CENTER_VERTICAL;
         progressBar.setLayoutParams(params3);
-        Drawable drawable = getResources().getDrawable(R.mipmap.net_progressbar);
+        Drawable drawable = getResources().getDrawable(R.drawable.ptr_loading);
         drawable.setBounds(0, 0, dp2px(30), dp2px(30));
         progressBar.setProgressDrawable(drawable);
 
@@ -430,30 +427,13 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
         public void PreLoading() {
         }
-
-        public void flingdown(int height) {
-        }
-
-        public void flingup(int height) {
-        }
     }
 
-    /**
-     * @param //快速滑动加载？
-     * @param overscroll 超出范围？
-     * @return
-     */
-    public SRecyclerView setOverScrollEnable(boolean overscroll, boolean loadingheader, boolean loadingfooter) {
-        canOverLoadingHeader = loadingheader;
-        canOverLoadingfooter = loadingfooter;
-        canOverscroll = overscroll;
-        return this;
-    }
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         //TODO回拉时的处理
-        if (isLoading || !scrollerCompat.isFinished())
+        if (isLoading )
             return;
         if (canheader) {
             //下拉回拉时
@@ -511,7 +491,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        if (isLoading || !scrollerCompat.isFinished())
+        if (isLoading )
             return;
         //TODO拉动的处理
         if ((myRecyclerView.canPull(-1) && dyUnconsumed < 0 && canheader) || (myRecyclerView.canPull(1) && dyUnconsumed > 0 && canfooter)) {
@@ -541,19 +521,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        Log.i(TAG, "onNestedFling: " + scrolls + "==" + velocityY);
-        if ((myRecyclerView.canPull(1) && myRecyclerView.canPull(-1)) || !scrollerCompat.isFinished())
-            return false;
-        if (canOverscroll && scrolls == 0 && Math.abs(velocityY) > 1000) {
-            if (!scrollerCompat.isFinished())
-                scrollerCompat.abortAnimation();
-            if (animator1 != null)
-                animator1.cancel();
-            Log.i(TAG, "onNestedFling: " + velocityY);
-            scrollerCompat.fling(0, myRecyclerView.computeVerticalScrollOffset(), 0, (int) velocityY, 0, 0, -10 * maxFastOverScroll, myRecyclerView.computeVerticalScrollRange() + 10 * maxFastOverScroll);
-            ViewCompat.postInvalidateOnAnimation(this);
-        }
-        return canOverscroll;
+        return false;
     }
 
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
@@ -565,48 +533,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         return scrollingParentHelper.getNestedScrollAxes();
     }
 
-    @Override
-    public void computeScroll() {
-
-        if (scrollerCompat.computeScrollOffset()) {
-            Log.i(TAG + "a", "computeScroll: xiala" + "--" + scrollerCompat.getFinalY() + "--scrollerCompat.getCurrY()" + scrollerCompat.getCurrY());
-            if ((myRecyclerView.canPull(-1) && scrollerCompat.getCurrY() < 0)) {
-                int i = scrollerCompat.getFinalY() - scrollerCompat.getCurrY();
-
-                if (i < -headerHeight && canOverLoadingHeader) {
-                    smoothScroll(0, -headerHeight, SCROLLTYPE.PULLDOWN);
-                    scrolls = -headerHeight;
-                    if (listener != null) {
-                        listener.Refreshing();
-                        beginRefreshing = System.currentTimeMillis();
-                    }
-                } else {
-                    if (i > 0)
-                        return;
-                    smoothScrollRepeat(i < -maxFastOverScroll ? -maxFastOverScroll : i, SCROLLTYPE.FLINGDOWN);
-                    scrolls = 0;
-                }
-                scrollerCompat.abortAnimation();
-            } else if ((myRecyclerView.canPull(1) && scrollerCompat.getCurrY() > 0)) {
-                int i2 = scrollerCompat.getFinalY() - scrollerCompat.getCurrY();
-                if (i2 > headerHeight && canOverLoadingfooter) {
-                    smoothScroll(0, footHeight, SCROLLTYPE.PULLUP);
-                    if (listener != null)
-                        listener.Loading();
-                    scrolls = footHeight;
-                } else {
-                    if (i2 < 0)
-                        return;
-                    smoothScrollRepeat(i2 > maxFastOverScroll ? maxFastOverScroll : i2, SCROLLTYPE.FLINGUP);
-                    scrolls = 0;
-                }
-                scrollerCompat.abortAnimation();
-            }
-        } else {
-//            Log.i(TAG, "computeScroll: finish");
-        }
-
-    }
 
     public enum SCROLLTYPE {
         PULLUP, PULLDOWN, FLINGDOWN, FLINGUP
@@ -626,39 +552,6 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
         }
     }
 
-    private void smoothScrollRepeat(final int max, final SCROLLTYPE type) {
-        if (animator1 != null) {
-            animator1.cancel();
-            animator1.setIntValues(0, max, 0);
-            animator1.setDuration(400);
-        } else {
-            animator1 = ValueAnimator.ofInt(0, max, 0);
-            animator1.setDuration(400);
-            animator1.setInterpolator(new AccelerateDecelerateInterpolator());
-        }
-        animator1.removeAllUpdateListeners();
-        animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-
-                if (listener == null)
-                    scrollTo(0, value);
-                else {
-                    if (type == SCROLLTYPE.FLINGDOWN) {
-                        if (actruallyHead)
-                            scrollTo(0, value);
-                        listener.flingdown(value);
-                    } else {
-                        if (actruallyFoot)
-                            scrollTo(0, value);
-                        listener.flingup(value);
-                    }
-                }
-            }
-        });
-        animator1.start();
-    }
 
     public void notifyRefreshComplete() {
         Log.i(TAG, "notifyRefreshComplete: smoothScroll");
@@ -685,7 +578,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
     public void onStopNestedScroll(View child) {
         scrollingParentHelper.onStopNestedScroll(child);
         Log.i(TAG, "onStopNestedScroll: 111");
-        if (isLoading || !scrollerCompat.isFinished()) {
+        if (isLoading ) {
             return;
         }
         Log.i(TAG, "onStopNestedScroll:222 ");
@@ -746,7 +639,7 @@ public class SRecyclerView extends LinearLayout implements NestedScrollingParent
                     } else {
                         if (actruallyFoot)
                             scrollTo(0, value);
-                        listener.pullDown(value);
+                        listener.pullUp(value);
                     }
 
                 }

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="375px"
+    android:background="#fff"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_item"
+        android:layout_width="354px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/kkkkk"
+        android:gravity="center"
+        app:layout_auto_basewidth="height">
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="354px"
+            android:layout_height="354px"
+            android:paddingLeft="0.5dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            android:paddingRight="0.5dp"
+            android:paddingTop="0.5dp"
+            app:layout_auto_basewidth="height" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_logo"
+            android:orientation="horizontal"
+            android:paddingLeft="24px"
+            android:paddingTop="20px"
+            app:layout_auto_basewidth="padding">
+
+            <TextView
+                android:id="@+id/state_qlj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_ff5f07_ffa838"
+                android:paddingBottom="2px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"
+                android:paddingTop="2px"
+                android:text="券立减"
+                android:textColor="#fff"
+                android:textSize="22px"
+                app:layout_auto_basewidth="margin" />
+
+            <TextView
+                android:id="@+id/state_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:background="#ff4070"
+                android:paddingBottom="2px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"
+                android:paddingTop="2px"
+                android:text="天猫"
+                android:textColor="#fff"
+                android:textSize="22px"
+                app:layout_auto_basewidth="margin" />
+
+            <TextView
+                android:id="@+id/state_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:background="#ff4070"
+                android:paddingBottom="2px"
+                android:paddingLeft="10px"
+                android:paddingRight="10px"
+                android:paddingTop="2px"
+                android:text="新品"
+                android:textColor="#fff"
+                android:textSize="22px"
+                app:layout_auto_basewidth="margin" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll"
+            android:layout_marginLeft="25px"
+            android:layout_marginRight="24px"
+            android:layout_marginTop="22px"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="问君何能尔？心远地自偏。"
+            android:textColor="#353535"
+            android:textSize="28px"
+            app:layout_auto_basewidth="margin" />
+
+        <TextView
+            android:id="@+id/newprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/title_name"
+            android:layout_below="@+id/title_name"
+            android:layout_marginTop="18px"
+            android:text="$88"
+            android:textColor="#fc1719"
+            android:textSize="32px"
+            app:layout_auto_basewidth="margin" />
+
+        <ImageView
+            android:id="@+id/quan_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_name"
+            android:layout_marginLeft="3px"
+            android:layout_marginTop="25px"
+            android:layout_toRightOf="@+id/newprice"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_auto_basewidth="margin" />
+
+        <TextView
+            android:id="@+id/oldprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_name"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="27px"
+            android:layout_toRightOf="@+id/quan_flag"
+            android:text="$149"
+            android:textColor="#9b9b9b"
+            android:textSize="20px"
+            app:layout_auto_basewidth="margin" />
+
+        <TextView
+            android:id="@+id/soldnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/title_name"
+            android:layout_below="@+id/newprice"
+            android:layout_marginTop="13px"
+            android:text="xxx 已售"
+            android:textColor="#9b9b9b"
+            android:textSize="20px"
+            app:layout_auto_basewidth="margin" />
+
+        <!--<ImageView-->
+            <!--android:id="@+id/more"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignRight="@+id/img_logo"-->
+            <!--android:layout_below="@+id/title_name"-->
+            <!--android:layout_marginTop="58px"-->
+            <!--android:padding="20px"-->
+            <!--android:paddingBottom="30px"-->
+            <!--android:src="@drawable/more_window"-->
+            <!--app:layout_auto_basewidth="margin" />-->
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="20px"
+            android:layout_alignRight="@+id/img_logo"
+            android:layout_below="@+id/title_name"
+            android:layout_marginTop="49px"
+            android:textColor="#9b9b9b"
+            android:textSize="20px"
+            android:text="更多相似"
+            android:padding="20px"
+            android:paddingBottom="22px"
+            android:drawableRight="@mipmap/simailr_more"
+            android:drawablePadding="5dp"
+            app:layout_auto_basewidth="margin" />
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_more"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="375px"-->
+            <!--android:layout_height="571px"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="#40353535"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical"-->
+            <!--app:layout_auto_basewidth="height">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/similar"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/similar_icon" />-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/collect"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="48px"-->
+                <!--android:src="@drawable/collect_icon"-->
+                <!--app:layout_auto_basewidth="margin" />-->
+
+        <!--</LinearLayout>-->
+    </RelativeLayout>
+</FrameLayout>

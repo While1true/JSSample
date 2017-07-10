@@ -61,7 +61,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
             return t * t * t * t * t + 1.0f;
         }
     };
-    ScrollerCompat scrollerCompat = ScrollerCompat.create(getContext(), sQuinticInterpolator);
+//    ScrollerCompat scrollerCompat = ScrollerCompat.create(getContext(), sQuinticInterpolator);
     private OnRefreshListener listener;
 
     private int headerHeight = dp2px(50), footHeight = dp2px(40);
@@ -83,8 +83,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
     private boolean canheader = true, canfooter = false;
     private ValueAnimator animator;
     private ValueAnimator animator1;
-    private boolean canOverLoadingHeader = true, canOverLoadingfooter = true, canLoadingHeader = true, canLoadingFooter = false;
-    private boolean canOverscroll = false;
+    private boolean  canLoadingHeader = true, canLoadingFooter = false;
     private boolean isusingDefault;
     private ImageView headerprogress;
     private TextView headTitle;
@@ -204,10 +203,11 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
         params1.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.setLayoutParams(params1);
         ImageView imageView = new ImageView(getContext());
-        imageView.setImageResource(R.mipmap.prf_background);
+
 //        imageView.setImageBitmap(BitmapFactory.decodeByteArray(bg, 0, bg.length));
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        RelativeLayout.LayoutParams paramsimageView = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageView.setImageResource(R.drawable.ptr_background);
+        RelativeLayout.LayoutParams paramsimageView = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsimageView.addRule(RelativeLayout.CENTER_HORIZONTAL);
         imageView.setId(12);
         imageView.setPadding(0, dp2px(12), 0, 0);
@@ -223,7 +223,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
 
         headerprogress = new ImageView(getContext());
 //        headerprogress.setImageBitmap(BitmapFactory.decodeByteArray(pro, 0, pro.length));
-        headerprogress.setImageResource(R.mipmap.net_progressbar);
+        headerprogress.setImageResource(R.drawable.ptr_loading);
 
         headTitle = new TextView(getContext());
         headTitle.setText("下拉刷新");
@@ -257,10 +257,10 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
         LayoutParams params3 = new LayoutParams(dp2px(30), dp2px(30));
         params3.gravity = Gravity.CENTER_VERTICAL;
         progressBar.setLayoutParams(params3);
-        Drawable drawable = getResources().getDrawable(R.mipmap.net_progressbar);
+        Drawable drawable = getResources().getDrawable(R.drawable.ptr_loading);
         drawable.setBounds(0, 0, dp2px(30), dp2px(30));
-        progressBar.setIndeterminateDrawable(drawable);
-//        progressBar.setProgressDrawable(drawable);
+//        progressBar.setIndeterminateDrawable(drawable);
+        progressBar.setProgressDrawable(drawable);
         TextView footText = new TextView(getContext());
         footText.setText("正在加载...");
         LayoutParams params4 = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -327,24 +327,6 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
 
         public void Loading() {
         }
-
-        public void PreLoading(int pre) {
-        }
-
-        public void fling(int height) {
-        }
-    }
-
-    /**
-     * @param //loading  快速滑动加载？
-     * @param overscroll 超出范围？
-     * @return
-     */
-    public SAllView setOverScrollEnable(boolean overscroll, boolean loadingheader, boolean loadingfooter) {
-        canOverLoadingHeader = loadingheader;
-        canOverLoadingfooter = loadingfooter;
-        canOverscroll = overscroll;
-        return this;
     }
 
     /**
@@ -361,7 +343,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         //TODO回拉时的处理
-        if (isLoading || !scrollerCompat.isFinished())
+        if (isLoading )
             return;
         if (canheader) {
             //下拉回拉时
@@ -419,9 +401,10 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
 
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        if (isLoading || !scrollerCompat.isFinished())
+        if (isLoading )
             return;
         //TODO拉动的处理
+        Log.i(TAG, "onNestedScroll: canfooter"+canfooter+"v!child.canScrollVertically(1)"+(!child.canScrollVertically(1))+"dyUnconsumed"+dyUnconsumed);
         if ((!child.canScrollVertically(-1) && dyUnconsumed < 0 && canheader) || (!child.canScrollVertically(1) && dyUnconsumed > 0 && canfooter)) {
             scrolls += dyUnconsumed;
             Log.i(TAG, "onNestedScroll: " + dyUnconsumed);
@@ -449,19 +432,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        Log.i(TAG, "onNestedFling: " + scrolls + "==" + velocityY);
-        if ((!child.canScrollVertically(1) && !child.canScrollVertically(-1)) || !scrollerCompat.isFinished())
-            return false;
-        if (canOverscroll && scrolls == 0 && Math.abs(velocityY) > 1000) {
-            if (!scrollerCompat.isFinished())
-                scrollerCompat.abortAnimation();
-            if (animator1 != null)
-                animator1.cancel();
-            Log.i(TAG, "onNestedFling: " + velocityY);
-            scrollerCompat.fling(0, myScrollView.getScrollY(), 0, (int) velocityY, 0, 0, -10 * maxFastOverScroll, myScrollView.getBottom() - myScrollView.getTop() + 10 * maxFastOverScroll);
-            ViewCompat.postInvalidateOnAnimation(this);
-        }
-        return canOverscroll;
+        return false;
     }
 
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
@@ -473,58 +444,6 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
         return scrollingParentHelper.getNestedScrollAxes();
     }
 
-    @Override
-    public void computeScroll() {
-
-        if (scrollerCompat.computeScrollOffset()) {
-            if (scrolls != 0)
-                scrollerCompat.abortAnimation();
-            if ((!child.canScrollVertically(-1) && scrollerCompat.getCurrY() < 0)) {
-                int i = scrollerCompat.getFinalY() - scrollerCompat.getCurrY();
-                Log.i(TAG + "a", "computeScroll: xiala" + i);
-                if (i < -headerHeight && canOverLoadingHeader) {
-                    smoothScroll(0, -headerHeight);
-                    scrolls = -headerHeight;
-                    if (listener != null) {
-                        listener.Refreshing();
-                        beginRefreshing = System.currentTimeMillis();
-                    }
-                } else {
-                    if (i > 0)
-                        return;
-                    if (!actruallyHead) {
-                        if (listener != null)
-                            listener.pullDown(i < -maxFastOverScroll ? -maxFastOverScroll : i);
-                    } else
-                        smoothScrollRepeat(i < -maxFastOverScroll ? -maxFastOverScroll : i);
-                    scrolls = 0;
-                }
-                scrollerCompat.abortAnimation();
-            } else if ((!child.canScrollVertically(1) && scrollerCompat.getCurrY() > 0)) {
-                int i2 = scrollerCompat.getFinalY() - scrollerCompat.getCurrY();
-                Log.i(TAG + "a", "computeScroll: shangla" + i2);
-                if (i2 > headerHeight && canOverLoadingfooter) {
-                    smoothScroll(0, footHeight);
-                    if (listener != null)
-                        listener.Loading();
-                    scrolls = footHeight;
-                } else {
-                    if (i2 < 0)
-                        return;
-                    if (!actruallyFoot) {
-                        if (listener != null)
-                            listener.pullUp(i2 > maxFastOverScroll ? maxFastOverScroll : i2);
-                    } else
-                        smoothScrollRepeat(i2 > maxFastOverScroll ? maxFastOverScroll : i2);
-                    scrolls = 0;
-                }
-                scrollerCompat.abortAnimation();
-            }
-        } else {
-//            Log.i(TAG, "computeScroll: finish");
-        }
-
-    }
 
     private void smoothScrollRepeat(final int max) {
         if (animator1 != null) {
@@ -576,7 +495,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
     public void onStopNestedScroll(View child) {
         scrollingParentHelper.onStopNestedScroll(child);
         Log.i(TAG, "onStopNestedScroll: ");
-        if (isLoading || !scrollerCompat.isFinished()) {
+        if (isLoading ) {
             return;
         }
         if (scrolls / pullRate <= -headerHeight) {
@@ -644,7 +563,7 @@ public class SAllView extends LinearLayout implements NestedScrollingParent {
                         } else if (from <= 0) {
                             if (actruallyHead)
                                 scrollTo(0, value);
-                            listener.pullDown(value);
+                            listener.pullUp(value);
                         }
                     }
                 }

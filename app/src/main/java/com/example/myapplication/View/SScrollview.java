@@ -225,7 +225,7 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent {
         params1.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.setLayoutParams(params1);
         ImageView imageView = new ImageView(getContext());
-        imageView.setImageResource(R.mipmap.prf_background);
+        imageView.setImageResource(R.drawable.ptr_background);
 //        imageView.setImageBitmap(BitmapFactory.decodeByteArray(bg, 0, bg.length));
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         RelativeLayout.LayoutParams paramsimageView = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -244,7 +244,7 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent {
 
         headerprogress = new ImageView(getContext());
 //        headerprogress.setImageBitmap(BitmapFactory.decodeByteArray(pro, 0, pro.length));
-        headerprogress.setImageResource(R.mipmap.net_progressbar);
+        headerprogress.setImageResource(R.drawable.ptr_loading);
 
         headTitle = new TextView(getContext());
         headTitle.setText("下拉刷新");
@@ -278,7 +278,7 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent {
         LayoutParams params3 = new LayoutParams(dp2px(30), dp2px(30));
         params3.gravity = Gravity.CENTER_VERTICAL;
         progressBar.setLayoutParams(params3);
-        Drawable drawable = getResources().getDrawable(R.mipmap.net_progressbar);
+        Drawable drawable = getResources().getDrawable(R.drawable.ptr_loading);
         drawable.setBounds(0, 0, dp2px(30), dp2px(30));
         progressBar.setIndeterminateDrawable(drawable);
 //        progressBar.setProgressDrawable(drawable);
@@ -382,42 +382,7 @@ public class SScrollview extends LinearLayout implements NestedScrollingParent {
         return this;
     }
 
-    //    @Override
-//    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-//        //TODO回拉时的处理
-//        if (isLoading||!scrollerCompat.isFinished())
-//            return;
-//        if (canheader) {
-//            //下拉回拉时
-//            if (myScrollView.canPull(-1) && dy > 0 && scrolls < 0) {
-//                scrolls += dy;
-//                if (scrolls <= 0) {
-//                    Log.i(TAG, "onNestedPreScroll:下拉回拉时 ");
-//                    if (actruallyHead)
-//                        scrollTo(0, scrolls / pullRate);
-//
-//                    if (isusingDefault) {
-//                        if (Math.abs(scrolls / pullRate) >= headerHeight)
-//                            headTitle.setText("释放刷新");
-//                        else
-//                            headTitle.setText("下拉刷新");
-//                        headerprogress.setRotation(scrolls / pullRate);
-//                    }
-//
-//                    consumed[1] = dy;
-//
-//                    if (listener != null)
-//                        listener.pullDown(scrolls / pullRate);
-//
-//                } else if (!myScrollView.canPull(1)) {
-//                    scrollTo(0, 0);
-//                    scrolls = 0;
-//                    consumed[1] = 0;
-//                }
-//                return;
-//            }
-//
-//        }
+
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         //TODO回拉时的处理

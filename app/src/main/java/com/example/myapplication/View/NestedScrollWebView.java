@@ -84,7 +84,7 @@ public class NestedScrollWebView extends WebView implements NestedScrollingChild
                 int oldY = getScrollY();
                 mLastMotionY = y - mScrollOffset[1];
                 int newScrollY = Math.max(0, oldY + deltaY);
-                deltaY -= newScrollY - oldY;
+//                deltaY -= newScrollY - oldY;
                 if (dispatchNestedScroll(0, newScrollY - deltaY, 0, deltaY, mScrollOffset)) {
                     mLastMotionY -= mScrollOffset[1];
                     trackedEvent.offsetLocation(0, mScrollOffset[1]);
